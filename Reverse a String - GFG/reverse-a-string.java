@@ -31,11 +31,17 @@ class Reverse
     // str: input string
     public static String reverseWord(String str)
     {
+        if(str.length()==1){
+            return str;
+        }
         String ans = new String ();
-        while(str.length()>0){
+        
         char a = str.charAt(0);
         str = str.substring(1);
-        ans = a + ans;}
+        
+        ans = reverseWord(str) + a;
+        
+        
         return ans;
     }
 }
