@@ -74,9 +74,9 @@ class Solution {
             if(size ==1 ){
                 head = null;
             }
-            else if(size==2){
-                head.next = null;
-            }
+            // else if(size==2){
+            //     head.next = null;
+            // }
             else{
                 prev.next = curr.next;
                 curr.next = null;
