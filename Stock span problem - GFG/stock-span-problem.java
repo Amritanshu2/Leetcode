@@ -37,48 +37,28 @@ class gfg
 
 
 
-
-
-
-
-
-
-
 class Solution
 {
-    public static int[] calculateSpan(int price[], int n)
+    //Function to calculate the span of stockâ€™s price for all n days.
+    public static int[] calculateSpan(int p[], int n)
     {
         Stack<Integer> st = new Stack<>();
-        int ans [] =  new int[n];
-        
-        for(int i=0;i<n;i++){
-            while(st.size()>0 && price[st.peek()]<=price[i]){
-                st.pop();
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        for(int i = 0;i<p.length;i++){
+            int hmm = 1;
+            if(st.empty()){st.push(p[i]);hm.put(p[i],hmm);p[i] = hmm;}
+            else{
+                while(st.empty()!= true && st.peek()<=p[i]){
+                    hmm = hmm + hm.get(st.peek());
+                    st.pop();
+                }
+                st.push(p[i]);
+                hm.put(p[i],hmm);
+                p[i] = hmm;
             }
-            if(st.size()==0)
-             ans[i] = -1;
-            else
-             ans[i] = st.peek();
-            
-            st.push(i);
         }
+        return p;
         
-        int res [] = new int[n];
-        for(int i=0;i<n;i++){
-            res[i] = i - ans[i];
-        }
-        return res;
     }
     
 }
-
-
-
-
-
-
-
-
-
-
-
