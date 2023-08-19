@@ -23,8 +23,9 @@ class Solution {
             al.add(s);
             return al;
         }
-        path(root.left,al,s+ root.val + "->" );
-        path(root.right,al,s  + root.val+ "->");
+        s = s+ root.val + "->";
+        path(root.left,al,s );
+        path(root.right,al,s);
         return al;
     }
     
