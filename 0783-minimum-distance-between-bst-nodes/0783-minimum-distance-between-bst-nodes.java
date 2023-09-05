@@ -25,10 +25,9 @@ class Solution {
     }
     public int minDiffInBST(TreeNode root) {
         get(root);
-        for(int i = 0;i<al.size();i++){
-            for(int j = i+1;j<al.size();j++){
-                if(Math.abs(al.get(i)-al.get(j)) < min){min = Math.abs(al.get(i)-al.get(j));}
-            }
+        Collections.sort(al);
+        for(int i = 0;i<al.size()-1;i++){
+            if(min> al.get(i+1)-al.get(i)){min = al.get(i+1)-al.get(i);}
         }
         return min;
     }
