@@ -3,7 +3,7 @@ class Solution {
         if(nums.length<2){return 0;}int a = 0;
         Arrays.sort(nums);
         a =( nums[0]+nums[nums.length-1])/2;
-        System.out.println(a);
+        // System.out.println(a);
         
         // for(int i = 0;i<nums.length;i++){
         //     if(nums[i]>a){
