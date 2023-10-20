@@ -1,20 +1,36 @@
 class Solution {
-    public int evalRPN(String[] tokens) {
-        Stack<Integer> st = new Stack<>();
-        for(int i = 0;i<tokens.length;i++){
-            char c = tokens[i].charAt(0);
-            if(c != '+' && c!= '-' && c!= '*' && c!= '/' || tokens[i].length()>1){
-                st.push(Integer.parseInt(tokens[i]));
-            }
-            
-            else{
+    public int evalRPN(String[] to) {
+        Stack<Integer>st = new Stack<>();
+        for(int i = 0;i<to.length;i++){
+            if(to[i].charAt(0)=='/'){
                 int a = st.pop();
                 int b = st.pop();
-                if(c == '+'){st.push(b+a);}
-                if(c=='*'){st.push(b*a);}
-                if(c=='/'){st.push(b/a);}
-                if(c=='-'){st.push(b-a);}
+                st.push(b/a);
+            }
+            else if(to[i].charAt(0)=='*'){
+                int a = st.pop();
+                int b = st.pop();
+                st.push(b*a);
+            }
+            else if(to[i].charAt(0)=='+'){
+                int a = st.pop();
+                int b = st.pop();
+                st.push(b+a);
+            }
+            // else if(to[i].charAt(0)=='-'){
+            //     int a = st.pop();
+            //     int b = st.pop();
+            //     st.push(b/a);
+            // }
+            else if(to[i].charAt(0)=='-' && to[i].length()==1){
+                int a = st.pop();
+                int b = st.pop();
+                st.push(b-a);
+            }
+            else{
+                st.push(Integer.parseInt(to[i]));
             }
         }
-        return st.pop();
-}}
+        return st.peek();
+    }
+}
