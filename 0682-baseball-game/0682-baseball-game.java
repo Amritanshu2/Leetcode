@@ -1,25 +1,28 @@
 class Solution {
-    public int calPoints(String[] op) {
-        Stack<Integer> st = new Stack<>();
-        for(int i = 0;i<op.length;i++){
-            if(op[i].charAt(0) == 'C' && st.empty()!=true){st.pop();}
-            else if(op[i].charAt(0) == 'D' ){st.push(2*st.peek());}
-            else if(op[i].charAt(0) =='+'){
-                int v2 = st.pop();
-                int v1 = st.pop();
-                int v3 = v1+v2;
-                st.push(v1);
-                st.push(v2);
-                st.push(v3);
+    public int calPoints(String[] s) {
+        Stack<Integer>st = new Stack<>();
+        for(int i = 0;i<s.length;i++){
+            if(s[i].charAt(0) == 'C'){
+                st.pop();
             }
-            else if(op[i].charAt(0) != 'C'){
-                st.push(Integer.parseInt(op[i]));
+            else if(s[i].charAt(0) == 'D'){
+                st.push(st.peek()*2);
+            }
+            else if(s[i].charAt(0) == '+' && st.size()>=2){
+                int a = st.pop();
+                int b = st.pop();
+                st.push(b);
+                st.push(a);
+                st.push(a+b);
+            }
+            else if(s[i].charAt(0)!='+'){
+                st.push(Integer.parseInt(s[i]));
             }
         }
-        int ans = 0;
-        while(st.empty()!=true){
-            ans = ans + st.pop();
+        int a = 0;
+        while(st.size()>0){
+            a+=st.pop();
         }
-        return ans;
+        return a;
     }
 }
