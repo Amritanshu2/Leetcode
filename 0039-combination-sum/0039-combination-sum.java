@@ -1,6 +1,6 @@
 class Solution {
     
-    HashSet<ArrayList<Integer>> set = new HashSet<>();
+    List<List<Integer>> all = new ArrayList<>();
     
     
     public void fun(int[] arr,int tar,ArrayList<Integer>al,int j){
@@ -8,7 +8,7 @@ class Solution {
         if(tar == 0){
             // System.out.println(tar);
             // Collections.sort(al);
-            set.add(new ArrayList<>(al));
+            all.add(new ArrayList<>(al));
         }
         for(int i = j;i<arr.length;i++){
             al.add(arr[i]);
@@ -22,10 +22,10 @@ class Solution {
         ArrayList<Integer>al =  new ArrayList<>();
         fun(candidates,target,al,0);
         // System.out.println(set);
-        List<List<Integer>> all = new ArrayList<>();
-        for (ArrayList element : set) {
-            all.add(element);
-        }
+        // List<List<Integer>> all = new ArrayList<>();
+        // for (ArrayList element : set) {
+        //     all.add(element);
+        // }
         return all;
     }
 }
