@@ -45,7 +45,7 @@ class Solution {
     
     public int pseudoPalindromicPaths (TreeNode root) {
         traverse(root,new HashMap<>());
-        System.out.println(al);
+        // System.out.println(al);
         return check();
     }
 }
