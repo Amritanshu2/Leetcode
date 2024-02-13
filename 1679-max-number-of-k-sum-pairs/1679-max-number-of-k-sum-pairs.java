@@ -8,10 +8,10 @@ class Solution {
             if(nums[l]+nums[r] == k){
                 l++;r--;a++;
             }
-            if(nums[l]+nums[r] > k){
+            else if(nums[l]+nums[r] > k){
                 r--;
             }
-            if(nums[l]+nums[r] < k){
+            else if(nums[l]+nums[r] < k){
                 l++;
             }
             
