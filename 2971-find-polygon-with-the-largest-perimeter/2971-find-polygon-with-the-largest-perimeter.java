@@ -1,30 +1,20 @@
 class Solution {
-    public long largestPerimeter(int[] array) {
+    public long largestPerimeter(int[] nums) {
+        if (nums.length < 3) {
+            return -1;
+        }
+
+        Arrays.sort(nums);
         long sum = 0;
-        Arrays.sort(array);
-        for (int i = 0; i < array.length / 2; i++) {
-            int temp = array[i];
-            array[i] = array[array.length - 1 - i];
-            array[array.length - 1 - i] = temp;
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];             
         }
-        for(int val : array){
-            sum+=val;
-        }
-        if(per(array,0,sum)==0){return -1;}
         
-        return per(array,0,sum);
-        
-    }
-    
-    public long per(int[]nums,int i,long sum){
-        if(i==nums.length){return 0;}
-        long total = 0;
-        if(sum - nums[i]>nums[i]){
-            total = nums[i]+per(nums,i+1,sum);
+        for (int i = nums.length - 1; i >= 0; i--) {
+             if(sum - nums[i] <= nums[i]){
+                     sum = sum - nums[i];  
+            }   else{return sum;}
         }
-        else{
-            total = per(nums,i+1,sum-nums[i]);
-        }
-        return total;
+     return -1;
     }
 }
