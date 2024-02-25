@@ -1,11 +1,11 @@
 class Solution {
     public int sumOfMultiples(int n) {
-        int j = 0;
-        for(int i = 0;i<=n;i++){
-            if(i%3==0 || i%5==0 || i%7 == 0){
-                j += i;
+        int total = 0;
+        for(int i = 2; i<=n; i++){
+            if(i%3==0 || i%5==0 || i%7==0){
+                total += i;
             }
         }
-        return j;
+        return total;
     }
 }
