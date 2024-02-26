@@ -19,7 +19,7 @@ class Solution {
                 a++;
             }
         }
-        System.out.println(alphabetHashMap);
+       
         return max;
     }
 }
