@@ -10,14 +10,7 @@
  */
 class Solution {
     
-    public int size(ListNode head){
-        int s = 0;
-        while(head!=null){
-            s++;head = head.next;
-        }
-        return s;
-    }
-    
+   
     
     public ListNode chng(ListNode head){
         ListNode temp = head;
@@ -37,7 +30,7 @@ class Solution {
     
     
     public ListNode reverseEvenLengthGroups(ListNode head) {
-        int s = size(head);int d  = 1;
+        int d  = 1;
         ListNode temp = head;int i = 0;
         ListNode remp = head;
         
