@@ -28,7 +28,7 @@ class Solution {
             al.add(0,st.peek().pos);
             st.pop();
         }
-        System.out.println(al);
+        // System.out.println(al);
         String as = "";int j = 0;
         for(int i = 0;i<s.length();i++){
             if(al.size()>0 && i == al.get(0)){al.remove(0);continue;}
