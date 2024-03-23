@@ -1,16 +1,30 @@
 class Solution {
     public int minAddToMakeValid(String s) {
-        int n = 0;Stack<Character>st = new Stack<>();
-        for(int i = 0;i<s.length();i++){
-            if(s.charAt(i) == ')'){
-                if(st.empty() || st.peek() != '('){
-                    n++;
-                }
-                else{st.pop();}
-            }
-            else{st.push(s.charAt(i));}
+        return isValid(s);
+    }
+    
+    public static int isValid(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
         }
-        n = n + st.size();
-        return n;
+
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            if (Character.isLetter(c)) {
+                continue; // Ignore alphabetic characters
+            } else if (c == '(' || c == '{' || c == '[') {
+                stack.push(c);
+            } else if (c == ')' && !stack.isEmpty() && stack.peek() == '(') {
+                stack.pop();
+            } else if (c == '}' && !stack.isEmpty() && stack.peek() == '{') {
+                stack.pop();
+            } else if (c == ']' && !stack.isEmpty() && stack.peek() == '[') {
+                stack.pop();
+            } else {
+                stack.push(c);
+            }
+        }
+
+        return stack.size();
     }
 }
