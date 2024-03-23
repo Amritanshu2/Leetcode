@@ -1,58 +1,50 @@
-import java.util.*;
-
-public class Solution {
-
-    private void dfs(Map<Integer, List<Pair<Integer, Integer>>> adj, int u, boolean[] visited, int[] result) {
-        visited[u] = true;
-
-        for (Pair<Integer, Integer> pair : adj.get(u)) {
-            int v = pair.getKey();
-            int c = pair.getValue();
-
-            result[0] = Math.min(result[0], c);
-
-            if (!visited[v]) {
-                dfs(adj, v, visited, result);
-            }
-        }
-    }
-
-    public int minScore(int n, int[][] roads) {
-        Map<Integer, List<Pair<Integer, Integer>>> adj = new HashMap<>();
-
-        for (int[] vec : roads) {
-            int u = vec[0];
-            int v = vec[1];
-            int c = vec[2];
-
-            adj.computeIfAbsent(u, k -> new ArrayList<>()).add(new Pair<>(v, c));
-            adj.computeIfAbsent(v, k -> new ArrayList<>()).add(new Pair<>(u, c));
-        }
-
-        boolean[] visited = new boolean[n + 1];
-        int[] result = {Integer.MAX_VALUE};
-        dfs(adj, 1, visited, result);
-
-        return result[0];
-    }
-
+class Solution {
     
-}
-
-class Pair<K, V> {
-    private K key;
-    private V value;
-
-    public Pair(K key, V value) {
-        this.key = key;
-        this.value = value;
+    public static class graph{
+        int src;
+        int des;
+        int wt;
+        graph(int src,int des,int wt){
+            this.src = src;
+            this.des = des;
+            this.wt = wt;
+        }
     }
-
-    public K getKey() {
-        return key;
+    
+    boolean[]visited;
+    
+    public int minScore(int n, int[][] roads) {
+        
+       ArrayList<graph>arr[] = new ArrayList[n+1];
+        for(int i = 0;i<=n;i++){
+            arr[i] = new ArrayList<>();
+        }
+        visited = new boolean[n+1];
+        
+        for(int i = 0;i<roads.length;i++){
+            arr[roads[i][0]].add(new graph(roads[i][0],roads[i][1],roads[i][2]));
+            arr[roads[i][1]].add(new graph(roads[i][1],roads[i][0],roads[i][2]));
+        }
+        List<Integer>al = new ArrayList<>();
+        trav(n,arr,1,al);
+        return min;
     }
-
-    public V getValue() {
-        return value;
+    
+    int min = (int)1e8;
+    
+    public void trav(int n,List<graph>arr[],int j , List<Integer>al){
+        
+        if(visited[j] == true){return;}
+        
+        for(int i = 0;i<arr[j].size();i++){
+            
+            
+            visited[arr[j].get(i).src] = true;
+           
+            min = Math.min(min,arr[j].get(i).wt);
+            trav(n,arr,arr[j].get(i).des,al); 
+            
+        }
+        
     }
 }
