@@ -28,7 +28,7 @@ class Solution {
                 }
                 s++;
             }
-            ans+=e-s+1;
+            ans += e-s+1;
         }
         return ans;
     }
