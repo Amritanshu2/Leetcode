@@ -1,62 +1,67 @@
+import java.util.*;
+
 class Solution {
-    
-    public class Edge {
-        int src;
-        int des;
-        
-        Edge(int src, int des) {
-            this.src = src;
-            this.des = des;
+
+    // Store count of subtrees of each node
+    long resultBaseNode = 0;
+    int[] count;
+    int N;
+
+    int dfsBase(Map<Integer, List<Integer>> adj, int currNode, int prevNode, int currDepth) {
+        int totalNode = 1;
+
+        resultBaseNode += currDepth;
+
+        if (adj.containsKey(currNode)) {
+            for (int child : adj.get(currNode)) {
+                if (child == prevNode)
+                    continue;
+
+                totalNode += dfsBase(adj, child, currNode, currDepth + 1);
+            }
+        }
+
+        // Store count of subtrees of each node
+        count[currNode] = totalNode;
+
+        return totalNode;
+    }
+
+    void dfs(Map<Integer, List<Integer>> adj, int parentNode, int prevNode, int[] result) {
+
+        if (adj.containsKey(parentNode)) {
+            for (int child : adj.get(parentNode)) {
+                if (child == prevNode)
+                    continue;
+
+                result[child] = result[parentNode] - count[child] + (N - count[child]);
+                dfs(adj, child, parentNode, result);
+            }
         }
     }
-    
+
     public int[] sumOfDistancesInTree(int n, int[][] edges) {
-        List<Integer>[] adjacencyList = new List[n];
-        
-        // Initialize adjacency list
-        for (int i = 0; i < n; i++) {
-            adjacencyList[i] = new ArrayList<>();
+        Map<Integer, List<Integer>> adj = new HashMap<>();
+        N = n;
+        count = new int[n];
+        for (int[] vec : edges) {
+            int u = vec[0];
+            int v = vec[1];
+
+            adj.computeIfAbsent(u, k -> new ArrayList<>()).add(v);
+            adj.computeIfAbsent(v, k -> new ArrayList<>()).add(u);
         }
-        
-        // Populate adjacency list with edges
-        for (int[] edge : edges) {
-            int src = edge[0];
-            int des = edge[1];
-            adjacencyList[src].add(des);
-            adjacencyList[des].add(src);
-        }
-        
-        int[] distances = new int[n];
-        int[] counts = new int[n];
-        
-        // Calculate distances and counts using DFS
-        dfs(0, -1, adjacencyList, distances, counts);
-        
-        // Calculate sum of distances for each node
+
+        resultBaseNode = 0;
+
+        dfsBase(adj, 0, -1, 0);
+
         int[] result = new int[n];
-        result[0] = distances[0];
-        calculateSumOfDistances(0, -1, adjacencyList, distances, counts, result, n);
-        
+
+        result[0] = (int) resultBaseNode;
+
+        dfs(adj, 0, -1, result);
+
         return result;
-    }
-    
-    private void dfs(int node, int parent, List<Integer>[] adjacencyList, int[] distances, int[] counts) {
-        for (int neighbor : adjacencyList[node]) {
-            if (neighbor != parent) {
-                dfs(neighbor, node, adjacencyList, distances, counts);
-                distances[node] += distances[neighbor] + counts[neighbor];
-                counts[node] += counts[neighbor];
-            }
-        }
-        counts[node]++;
-    }
-    
-    private void calculateSumOfDistances(int node, int parent, List<Integer>[] adjacencyList, int[] distances, int[] counts, int[] result, int n) {
-        for (int neighbor : adjacencyList[node]) {
-            if (neighbor != parent) {
-                result[neighbor] = result[node] - counts[neighbor] + (n - counts[neighbor]);
-                calculateSumOfDistances(neighbor, node, adjacencyList, distances, counts, result, n);
-            }
-        }
     }
 }
