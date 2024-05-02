@@ -21,22 +21,22 @@ class Node {
 class Solution {
     public Node cloneGraph(Node node) {
         Node root = new  Node();
-        root = tree(node,root,new HashSet<>());
+        root = tree(node,root);
         return root;
     }
     HashMap<Integer,Node> hm = new HashMap<>();
     
-    public Node tree(Node node, Node root, HashSet<Node>hs){
+    public Node tree(Node node, Node root){
         if(node == null){return null;}
         root.val = node.val;
         hm.put(root.val,root);
-        hs.add(node);
+        // hs.add(node);
         List<Node>al = new ArrayList<>();
         for(int i = 0;i<node.neighbors.size();i++){
-            if(hs.contains(node.neighbors.get(i))){al.add(hm.get(node.neighbors.get(i).val));continue;}
+            if(hm.containsKey(node.neighbors.get(i).val)){al.add(hm.get(node.neighbors.get(i).val));continue;}
             Node temp = new  Node();
             
-            al.add(tree(node.neighbors.get(i),temp,hs));
+            al.add(tree(node.neighbors.get(i),temp));
         }
         // System.out.println(al);
         root.neighbors = al;
