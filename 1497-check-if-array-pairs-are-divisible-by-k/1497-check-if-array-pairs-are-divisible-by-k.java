@@ -4,9 +4,8 @@ class Solution {
     public boolean canArrange(int[] arr, int k) {
         HashMap<Integer, Integer> remainderCount = new HashMap<>();
         
-        // Count frequencies of remainders
         for (int num : arr) {
-            int remainder = ((num % k) + k) % k; // Ensure non-negative remainders
+            int remainder = ((num % k) + k) % k;
             remainderCount.put(remainder, remainderCount.getOrDefault(remainder, 0) + 1);
         }
         
