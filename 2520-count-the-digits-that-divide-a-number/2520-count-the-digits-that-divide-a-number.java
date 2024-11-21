@@ -1,12 +1,14 @@
 class Solution {
     public int countDigits(int num) {
-        int m =0;int k = num;
+        int count =0;
+        int temp = num;
         while(num>0){
-            if(k % (num%10)==0){
-                m+=1;
+           int d = num % 10;
+            if(temp % d ==0){
+                count ++;
             }
-            num = num/10;
+            num /=10;
         }
-        return m;
+        return count;
     }
 }
