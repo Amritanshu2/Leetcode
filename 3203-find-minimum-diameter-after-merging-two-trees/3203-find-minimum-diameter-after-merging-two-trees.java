@@ -1,42 +1,75 @@
-class Solution {
-    private int res;
+import java.util.*;
 
-    private int dfs(List<Integer>[] G, int u, int p) {
-        int h1 = 0, h2 = 0;
-        for (int v: G[u]) {
-            if (v == p) continue;
-            int h = dfs(G, v, u);
-            if (h >= h1) {
-                h2 = h1;
-                h1 = h;
-            } else if (h > h2) {
-                h2 = h;
+class Solution {
+    
+    public int minimumDiameterAfterMerge(int[][] edges1, int[][] edges2) {
+        List<List<Integer>> tree1 = buildTree(edges1);
+        List<List<Integer>> tree2 = buildTree(edges2);
+        
+        int d1 = findTreeDiameter(tree1);
+        int d2 = findTreeDiameter(tree2);
+        
+        
+        return Math.max(Math.max(d1, d2),((d1 + 1) >> 1) + ((d2 + 1) >> 1) + 1); 
+    }
+    
+    private List<List<Integer>> buildTree(int[][] edges) {
+        int n = 0;
+        for (int[] edge : edges) {
+            n = Math.max(n, Math.max(edge[0], edge[1]));
+        }
+        n++;
+        
+        List<List<Integer>> tree = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            tree.add(new ArrayList<>());
+        }
+        
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            tree.get(u).add(v);
+            tree.get(v).add(u);
+        }
+        
+        return tree;
+    }
+    
+    private int findTreeDiameter(List<List<Integer>> tree) {
+        int[] firstBFS = bfs(tree, 0);
+        int farthestNode = firstBFS[1];
+        int[] secondBFS = bfs(tree, farthestNode);
+        return secondBFS[0];
+    }
+    
+    private int[] bfs(List<List<Integer>> tree, int start) {
+        int n = tree.size();
+        boolean[] visited = new boolean[n];
+        Queue<int[]> queue = new LinkedList<>();
+        queue.offer(new int[]{start, 0});
+        visited[start] = true;
+        
+        int maxDistance = 0;
+        int farthestNode = start;
+        
+        while (!queue.isEmpty()) {
+            int[] current = queue.poll();
+            int node = current[0];
+            int distance = current[1];
+            
+            if (distance > maxDistance) {
+                maxDistance = distance;
+                farthestNode = node;
+            }
+            
+            for (int neighbor : tree.get(node)) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.offer(new int[]{neighbor, distance + 1});
+                }
             }
         }
-        res = Math.max(res, h1 + h2);
-        return h1 + 1;
-    }
-
-    private int diameter(List<Integer>[] G) {
-        res = 0;
-        dfs(G, 0, -1);
-        return res;
-    }
-
-    private List<Integer>[] buildGraph(int[][] edges) {
-        int n = edges.length + 1;
-        List<Integer>[] G = new ArrayList[n];
-        for (int i = 0; i < n; i++)
-            G[i] = new ArrayList<>();
-        for (int[] e: edges) {
-            G[e[0]].add(e[1]);
-            G[e[1]].add(e[0]);
-        }
-        return G;
-    }
-
-    public int minimumDiameterAfterMerge(int[][] edges1, int[][] edges2) {
-        int d1 = diameter(buildGraph(edges1)), d2 = diameter(buildGraph(edges2));
-        return Math.max(Math.max(d1, d2), ((d1 + 1) >> 1) + ((d2 + 1) >> 1) + 1);
+        
+        return new int[]{maxDistance, farthestNode};
     }
 }
