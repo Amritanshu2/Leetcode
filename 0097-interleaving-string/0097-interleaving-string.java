@@ -1,6 +1,5 @@
 class Solution {
-    Boolean[][][] dp; // Changed dp array to Boolean.
-
+    Boolean[][][] dp; 
     public boolean isInterleave(String s1, String s2, String s3) {
         if (s3.length() != s1.length() + s2.length()) {
             return false;
